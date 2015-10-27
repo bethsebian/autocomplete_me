@@ -63,5 +63,33 @@ class NodeTest < Minitest::Test
     assert_equal false, test_node.word?
     refute test_node.word?
   end
+
+  def test_node_returns_child_for_given_key_if_one_exists
+    test_node = Node.new(["t","e","s","t"])
+
+    assert_equal test_node.link("t"), test_node.returns("t")
+    assert_equal test_node.link("t").link("e"), test_node.link("t").returns("e")
+  end
+
+  def test_node_knows_to_return_child_if_child_exists
+    test_node = Node.new(["t","e","s","t"])
+
+    link_t_1 = test_node.link("t")
+    test_node.advance("t")
+    link_t_2 = test_node.link("t")
+
+    assert_equal link_t_1, link_t_2
+  end
+
+  def test_node_knows_to_create_child_if_no_child_exists
+    test_node = Node.new(["t","e","s","t"])
+
+    link_t_1 = test_node.link("h") # nil
+    test_node.advance("h")
+    link_t_2 = test_node.link("h")
+
+    refute link_t_1
+    assert link_t_2
+  end
 end
 
