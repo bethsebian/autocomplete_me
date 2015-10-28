@@ -8,19 +8,29 @@ class Node
     @selections = 0
     @word = false
     @my_hash = Hash.new
-    create_child(array)
+    advance(array)
   end
 
   def selections
     @selections
   end
 
-  def create_child(input_array)
+  def advance(input)
+    if input.class == Array
+      input_array = input
+    elsif input.class == String
+      input_array = input.chars
+    end
     if input_array.empty?
-    else
-      key = input_array[0]
+      @word = true
+    elsif @my_hash[input_array[0]]
+      existing_link = @my_hash[input_array[0]]
       input_array.shift
-      add_key_and_value_to_hash(key, value = Node.new(input_array))
+        if input_array.empty?
+          existing_link.advance([])
+        else existing_link.advance(input_array)
+        end
+      else create_child(input_array)
     end
   end
 
@@ -32,7 +42,13 @@ class Node
     @my_hash
   end
 
-  def add_key_and_value_to_hash(key,value)
+  def create_child(input_array)
+    key = input_array[0]
+    input_array.shift
+    add_key_and_new_node_link_to_hash(key, value = Node.new(input_array))
+  end
+
+  def add_key_and_new_node_link_to_hash(key,value)
     @my_hash[key] = value
   end
 
@@ -43,16 +59,4 @@ class Node
   def returns(key)
     @my_hash[key] ? @my_hash[key] : "bam"
   end
-
-  def advance(input)
-    input_array = [input]
-    if @my_hash[input_array[0]]
-      @my_hash[input_array[0]]
-    else
-      key = input_array[0]
-      input_array.shift
-      add_key_and_value_to_hash(key, value = Node.new(input_array))
-    end
-  end
-
 end

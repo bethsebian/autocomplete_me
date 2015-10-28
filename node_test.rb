@@ -91,5 +91,26 @@ class NodeTest < Minitest::Test
     refute link_t_1
     assert link_t_2
   end
+
+  def test_mark_node_as_end_of_word_when_node_reps_last_letter_in_string
+    test_node = Node.new(["t","e","s","t"])
+
+    assert test_node.link("t").link("e").link("s").link("t").word?
+    refute test_node.link("t").link("e").link("s").word?
+    refute test_node.link("t").link("e").word?
+    refute test_node.link("t").word?
+    refute test_node.word?
+  end
+
+  def test_mark_node_as_end_of_word_when_node_reps_last_letter_in_string
+    test_node = Node.new(["m","e","a","t"])
+    test_node.advance(["m","e"])
+
+    assert test_node.link("m").link("e").link("a").link("t").word?
+    assert test_node.link("m").link("e").word?
+    refute test_node.link("m").link("e").link("a").word?
+    refute test_node.link("m").word?
+    refute test_node.word?
+  end
 end
 
