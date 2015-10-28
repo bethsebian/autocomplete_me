@@ -65,5 +65,20 @@ class CompleteMeTest < Minitest::Test
     assert_equal ["b", "f", "h", "m", "s", "u"], trie.root.my_hash.keys.sort
     assert_equal ["k","m"], trie.root.link("u").my_hash.keys.sort
   end
+
+  def test_it_bulk_uploads_dictionary_words
+    trie = CompleteMe.new
+    dictionary = File.read("/usr/share/dict/words")
+    trie.populate(dictionary)
+
+    assert_equal Node, trie.root.link("a").class
+    assert_equal Node, trie.root.link("z").class
+    assert_equal ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"], trie.root.my_hash.keys.sort
+
+  end
+
+  # TODO: def test_it_reports_the_number_of_words_in_its_dictionary
+    #assert_equal 15, trie.counter
+
 end
 
