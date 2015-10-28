@@ -74,11 +74,37 @@ class CompleteMeTest < Minitest::Test
     assert_equal Node, trie.root.link("a").class
     assert_equal Node, trie.root.link("z").class
     assert_equal ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"], trie.root.my_hash.keys.sort
-
   end
 
-  # TODO: def test_it_reports_the_number_of_words_in_its_dictionary
-    #assert_equal 15, trie.counter
+  def test_it_navigates_to_end_node_when_given_prefix_string
+    trie = CompleteMe.new
+    trie.insert("treat")
+    trie.insert("trek")
+    trie.insert("trump")
+    trie.insert("trunk")
 
+    assert_equal trie.root.link("t").link("r").link("e"), trie.navigate_to_end_of_prefix_node("tre")
+  end
+
+  def test_it_collects_potential_matches_from_the_last_node_in_prefix_string
+    trie = CompleteMe.new
+    trie.insert("treat")
+    trie.insert("trek")
+    trie.insert("trump")
+    trie.insert("trunk")
+
+    assert_equal trie.root.link("t").link("r").link("e"), trie.navigate_to_end_of_prefix_node("tre")
+  end
+
+  def test_it_suggest_words_in_response_to_given_prefix
+    trie = CompleteMe.new
+    trie.insert("treat")
+    trie.insert("trek")
+    trie.insert("trump")
+    trie.insert("trunk")
+
+    assert_equal ["treat","trek"], trie.suggest("tre")
+    assert_equal ["treat", "trek", "trump", "trunk"], trie.suggest("tr")
+  end
 end
 
