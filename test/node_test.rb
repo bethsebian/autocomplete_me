@@ -1,7 +1,7 @@
 gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
-require_relative 'node.rb'
+require_relative '../lib/node.rb'
 
 class NodeTest < Minitest::Test
   def test_new_node_with_empty_array_has_empty_hash
@@ -121,6 +121,13 @@ class NodeTest < Minitest::Test
     assert_equal ["a","k"], test_node.link("t").link("r").link("e").my_hash.keys.sort
     assert_equal ["treat","trek"], test_node.link("t").link("r").link("e").collect("tre")
   end
+
+  def test_node_captures_prefix_used_to_select_the_word_it_represents
+
+  end
+
+
+
 
 end
 

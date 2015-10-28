@@ -1,9 +1,14 @@
 require_relative 'node.rb'
 
 class CompleteMe
-  attr_accessor :root, :counter
+  attr_accessor :root, :count
+
+  def initialize
+    @count = 0
+  end
 
   def insert(word)
+    @count += 1
     if root.nil?
       @root = Node.new(word.chars)
     else

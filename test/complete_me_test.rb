@@ -1,7 +1,7 @@
 gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
-require_relative 'complete_me.rb'
+require_relative '../lib/complete_me.rb'
 
 class CompleteMeTest < Minitest::Test
 
@@ -67,6 +67,7 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_it_bulk_uploads_dictionary_words
+    skip
     trie = CompleteMe.new
     dictionary = File.read("/usr/share/dict/words")
     trie.populate(dictionary)
@@ -106,5 +107,16 @@ class CompleteMeTest < Minitest::Test
     assert_equal ["treat","trek"], trie.suggest("tre")
     assert_equal ["treat", "trek", "trump", "trunk"], trie.suggest("tr")
   end
+
+  def test_it_counts_words_in_dictionary
+    trie = CompleteMe.new
+    trie.insert("treat")
+    trie.insert("trek")
+    trie.insert("trump")
+    trie.insert("trunk")
+
+    assert_equal 4, trie.count
+  end
+
 end
 
