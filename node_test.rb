@@ -112,5 +112,15 @@ class NodeTest < Minitest::Test
     refute test_node.link("m").word?
     refute test_node.word?
   end
+
+  def test_it_provides_list_of_children_words
+    test_node = Node.new(["t","r","e","k"])
+    test_node.advance(["t","r","e","a","t"])
+    test_node.advance(["t","r","u","m","p"])
+
+    assert_equal ["a","k"], test_node.link("t").link("r").link("e").my_hash.keys.sort
+    assert_equal ["treat","trek"], test_node.link("t").link("r").link("e").collect("tre")
+  end
+
 end
 

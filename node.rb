@@ -1,7 +1,7 @@
 require 'pry'
 
 class Node
-  attr_accessor :selections, :word, :array, :alphabet_hash
+  attr_accessor :selections, :word, :array, :alphabet_hash, :word_list
 
   def initialize(array=[])
     @array = array
@@ -34,6 +34,12 @@ class Node
     end
   end
 
+  def create_child(input_array)
+    key = input_array[0]
+    input_array.shift
+    add_key_and_new_node_link_to_hash(key, value = Node.new(input_array))
+  end
+
   def word?
     @word
   end
@@ -42,10 +48,17 @@ class Node
     @my_hash
   end
 
-  def create_child(input_array)
-    key = input_array[0]
-    input_array.shift
-    add_key_and_new_node_link_to_hash(key, value = Node.new(input_array))
+  def collect(prefix,word_list=[])
+    if @word == true
+      word_list.push(prefix)
+    end
+    if my_hash.empty?
+    else
+      @my_hash.each do |key, value|
+        value.collect(prefix+key,word_list)
+      end
+    end
+    word_list.sort
   end
 
   def add_key_and_new_node_link_to_hash(key,value)
