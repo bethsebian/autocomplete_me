@@ -1,23 +1,12 @@
 require 'pry'
 
 class Node
-  attr_accessor :selections, :word, :array, :alphabet_hash, :word_list
-
   def initialize(word_rest="")
-    if word_rest.class == Array
-      @word_rest = word_rest
-    elsif word_rest.class == String
-      @word_rest = word_rest.chars
-    end
-    @selections = 0
-    @word = false
-    @my_hash = Hash.new
-    @hash_of_prompts = Hash.new
+    word_rest.class == String ? (@word_rest = word_rest.chars) : word_rest
+    @word_indicator = false
+    @links_hash = Hash.new
+    @prompts_hash = Hash.new
     advance(word_rest)
-  end
-
-  def selections
-    @selections
   end
 
   def advance(input)
@@ -27,9 +16,9 @@ class Node
       input_array = input.chars
     end
     if input_array.empty?
-      @word = true
-    elsif @my_hash[input_array[0]]
-      existing_link = @my_hash[input_array[0]]
+      @word_indicator = true
+    elsif @links_hash[input_array[0]]
+      existing_link = @links_hash[input_array[0]]
       input_array.shift
         if input_array.empty?
           existing_link.advance([])
@@ -51,24 +40,24 @@ class Node
   end
 
   def word?
-    @word
+    @word_indicator
   end
 
-  def my_hash
-    @my_hash
+  def links_hash
+    @links_hash
   end
 
   def collect(prefix,prompt,word_list=Hash.new)
-    if @word == true
-      if hash_of_prompts[prompt].nil?
+    if @word_indicator == true
+      if prompts_hash[prompt].nil?
         word_list[prefix] = 0
       else
-        word_list[prefix] = @hash_of_prompts[prompt]
+        word_list[prefix] = @prompts_hash[prompt]
       end
     end
-    if my_hash.empty?
+    if links_hash.empty?
     else
-      @my_hash.each do |key, value|
+      @links_hash.each do |key, value|
         value.collect(prefix+key,prompt,word_list)
       end
     end
@@ -80,27 +69,27 @@ class Node
   end
 
   def add_key_and_new_node_link_to_hash(key,value)
-    @my_hash[key] = value
+    @links_hash[key] = value
   end
 
   def link(key)
-    @my_hash[key]
+    @links_hash[key]
   end
 
   def returns(key)
-    @my_hash[key] ? @my_hash[key] : "bam"
+    @links_hash[key] ? @links_hash[key] : "bam"
   end
 
-  def node_selected(key)
-    if @hash_of_prompts[key].nil?
-      @hash_of_prompts[key] = 1
+  def increase_selected_count(key)
+    if @prompts_hash[key].nil?
+      @prompts_hash[key] = 1
     else
-      selected_times = @hash_of_prompts[key]
-      @hash_of_prompts[key] += 1
+      selected_times = @prompts_hash[key]
+      @prompts_hash[key] += 1
     end
   end
 
-  def hash_of_prompts
-    @hash_of_prompts
+  def prompts_hash
+    @prompts_hash
   end
 end

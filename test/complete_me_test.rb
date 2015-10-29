@@ -62,19 +62,18 @@ class CompleteMeTest < Minitest::Test
     trie.insert("foxy")
     trie.insert("ukelele")
 
-    assert_equal ["b", "f", "h", "m", "s", "u"], trie.root.my_hash.keys.sort
-    assert_equal ["k","m"], trie.root.link("u").my_hash.keys.sort
+    assert_equal ["b", "f", "h", "m", "s", "u"], trie.root.links_hash.keys.sort
+    assert_equal ["k","m"], trie.root.link("u").links_hash.keys.sort
   end
 
   def test_it_bulk_uploads_dictionary_words
-    skip
     trie = CompleteMe.new
     dictionary = File.read("/usr/share/dict/words")
     trie.populate(dictionary)
 
     assert_equal Node, trie.root.link("a").class
     assert_equal Node, trie.root.link("z").class
-    assert_equal ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"], trie.root.my_hash.keys.sort
+    assert_equal ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"], trie.root.links_hash.keys.sort
   end
 
   def test_it_navigates_to_end_node_when_given_prefix_string
@@ -123,7 +122,7 @@ class CompleteMeTest < Minitest::Test
     trie.insert("trek")
     trie.select("tre", "trek")
 
-    assert_equal Hash("tre"=>1), trie.navigate_to_end_of_prefix_node("trek").hash_of_prompts
+    assert_equal Hash("tre"=>1), trie.navigate_to_end_of_prefix_node("trek").prompts_hash
   end
 
   def test_it_suggest_words_in_response_to_given_prefix_ordered_by_selected_occurrence

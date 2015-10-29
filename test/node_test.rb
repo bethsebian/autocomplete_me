@@ -7,8 +7,8 @@ class NodeTest < Minitest::Test
   def test_new_node_with_empty_array_has_empty_links_hash
     test_node = Node.new()
 
-    assert_equal Hash.new, test_node.my_hash
-    assert test_node.my_hash.empty?
+    assert_equal Hash.new, test_node.links_hash
+    assert test_node.links_hash.empty?
   end
 
   def test_new_node_with_1_letter_array_creates_key_letter_and_value_new_node
@@ -38,13 +38,6 @@ class NodeTest < Minitest::Test
     assert_equal Node, test_node.link("f").link("u").link("n").link("n").link("y").class
     refute test_node.link("f").link("u").link("n").link("n").link("c")
     refute test_node.link("f").link("g")
-  end
-
-  def test_it_has_default_selection_value_of_zero
-    test_node = Node.new([])
-
-    assert_equal 0, test_node.selections
-    refute_equal 5, test_node.selections
   end
 
   def test_it_can_be_initialized_with_an_empty_array
@@ -114,25 +107,25 @@ class NodeTest < Minitest::Test
     test_node.advance("treat")
     test_node.advance("trump")
 
-    assert_equal ["a","k"], test_node.link("t").link("r").link("e").my_hash.keys.sort
+    assert_equal ["a","k"], test_node.link("t").link("r").link("e").links_hash.keys.sort
     assert_equal ["treat","trek"], test_node.link("t").link("r").link("e").collect("tre","tre")
   end
 
-  def test_node_is_initialized_with_empty_hash_of_prompts
+  def test_node_is_initialized_with_empty_prompts_hash
     test_node = Node.new("trek")
 
-    assert_equal Hash.new, test_node.link("t").link("r").link("e").link("k").hash_of_prompts
+    assert_equal Hash.new, test_node.link("t").link("r").link("e").link("k").prompts_hash
   end
 
   def test_node_captures_prefix_used_to_select_the_word_it_represents
     test_node = Node.new("trek")
     test_node.advance("treat")
     test_node.advance("trump")
-    test_node.link("t").link("r").link("e").link("k").node_selected("tre")
+    test_node.link("t").link("r").link("e").link("k").increase_selected_count("tre")
 
-    assert_equal Hash("tre"=>1), test_node.link("t").link("r").link("e").link("k").hash_of_prompts
+    assert_equal Hash("tre"=>1), test_node.link("t").link("r").link("e").link("k").prompts_hash
 
-    test_node.link("t").link("r").link("e").link("k").node_selected("tre")
-    assert_equal Hash("tre"=>2), test_node.link("t").link("r").link("e").link("k").hash_of_prompts
+    test_node.link("t").link("r").link("e").link("k").increase_selected_count("tre")
+    assert_equal Hash("tre"=>2), test_node.link("t").link("r").link("e").link("k").prompts_hash
   end
 end

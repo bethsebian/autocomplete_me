@@ -38,6 +38,6 @@ class CompleteMe
   end
 
   def select(prompt,selected_word)
-    navigate_to_end_of_prefix_node(selected_word).node_selected(prompt)
+    navigate_to_end_of_prefix_node(selected_word).increase_selected_count(prompt)
   end
 end
