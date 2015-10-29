@@ -34,7 +34,7 @@ class CompleteMe
   end
 
   def suggest(prefix)
-    navigate_to_end_of_prefix_node(prefix).collect(prefix)
+    navigate_to_end_of_prefix_node(prefix).collect(prefix,prompt=prefix)
   end
 
   def select(prompt,selected_word)

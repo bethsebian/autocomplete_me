@@ -118,12 +118,28 @@ class CompleteMeTest < Minitest::Test
     assert_equal 4, trie.count
   end
 
-  def test_trie_triggers_node_to_store_data_about_its_common_prompts
+  def test_trie_triggers_node_to_store_data_about_prompts_that_lead_to_its_selection
     trie = CompleteMe.new
     trie.insert("trek")
     trie.select("tre", "trek")
 
     assert_equal Hash("tre"=>1), trie.navigate_to_end_of_prefix_node("trek").hash_of_prompts
+  end
+
+  def test_it_suggest_words_in_response_to_given_prefix_ordered_by_selected_occurrence
+    trie = CompleteMe.new
+    trie.insert("jan")
+    trie.insert("jam")
+    trie.insert("january")
+    trie.insert("janitor")
+
+    trie.select("ja", "january")
+    trie.select("ja", "january")
+    trie.select("ja", "january")
+    trie.select("ja", "janitor")
+    trie.select("ja", "janitor")
+
+    assert_equal ["january","janitor","jam","jan"], trie.suggest("ja")
   end
 end
 

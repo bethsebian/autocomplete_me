@@ -58,17 +58,25 @@ class Node
     @my_hash
   end
 
-  def collect(prefix,word_list=[])
+  def collect(prefix,prompt,word_list=Hash.new)
     if @word == true
-      word_list.push(prefix)
+      if hash_of_prompts[prompt].nil?
+        word_list[prefix] = 0
+      else
+        word_list[prefix] = @hash_of_prompts[prompt]
+      end
     end
     if my_hash.empty?
     else
       @my_hash.each do |key, value|
-        value.collect(prefix+key,word_list)
+        value.collect(prefix+key,prompt,word_list)
       end
     end
-    word_list.sort
+    word_list = word_list.sort do |a,b|
+      comp = (-a[1] <=> -b[1])
+      comp.zero? ? (a[0] <=> b[0]) : comp
+    end
+    Hash[word_list].keys
   end
 
   def add_key_and_new_node_link_to_hash(key,value)

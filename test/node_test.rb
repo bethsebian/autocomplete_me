@@ -115,7 +115,7 @@ class NodeTest < Minitest::Test
     test_node.advance("trump")
 
     assert_equal ["a","k"], test_node.link("t").link("r").link("e").my_hash.keys.sort
-    assert_equal ["treat","trek"], test_node.link("t").link("r").link("e").collect("tre")
+    assert_equal ["treat","trek"], test_node.link("t").link("r").link("e").collect("tre","tre")
   end
 
   def test_node_is_initialized_with_empty_hash_of_prompts
