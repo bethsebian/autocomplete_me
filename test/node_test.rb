@@ -4,25 +4,22 @@ require 'minitest/pride'
 require_relative '../lib/node.rb'
 
 class NodeTest < Minitest::Test
-  def test_new_node_with_empty_array_has_empty_hash
-    word_array = []
-    test_node = Node.new(word_array)
+  def test_new_node_with_empty_array_has_empty_links_hash
+    test_node = Node.new()
 
-    assert_equal [{}], [test_node.my_hash]
+    assert_equal Hash.new, test_node.my_hash
     assert test_node.my_hash.empty?
   end
 
   def test_new_node_with_1_letter_array_creates_key_letter_and_value_new_node
-    word_array = ["e"]
-    test_node = Node.new(word_array)
+    test_node = Node.new("e")
 
     assert test_node.link("e").object_id
     refute test_node.link("a")
   end
 
   def test_new_node_with_2_letter_array_creates_1_child_with_1_child
-    word_array = ["f","u"]
-    test_node = Node.new(word_array)
+    test_node = Node.new("fu")
 
     assert test_node.link("f").object_id
     assert test_node.link("f").link("u").object_id
@@ -31,8 +28,7 @@ class NodeTest < Minitest::Test
    end
 
    def test_new_node_with_5_letter_array_creates_5_generations
-    word_array = ["f","u","n","n","y"]
-    test_node = Node.new(word_array)
+    test_node = Node.new("funny")
 
     assert test_node.link("f").link("u").link("n").link("n").link("y")
     assert_equal Node, test_node.link("f").class
@@ -58,21 +54,21 @@ class NodeTest < Minitest::Test
   end
 
   def test_it_has_default_word_indicator_of_false
-    test_node = Node.new(["t","e","s","t"])
+    test_node = Node.new("test")
 
     assert_equal false, test_node.word?
     refute test_node.word?
   end
 
   def test_node_returns_child_for_given_key_if_one_exists
-    test_node = Node.new(["t","e","s","t"])
+    test_node = Node.new("test")
 
     assert_equal test_node.link("t"), test_node.returns("t")
     assert_equal test_node.link("t").link("e"), test_node.link("t").returns("e")
   end
 
   def test_node_knows_to_return_child_if_child_exists
-    test_node = Node.new(["t","e","s","t"])
+    test_node = Node.new("test")
 
     link_t_1 = test_node.link("t")
     test_node.advance("t")
@@ -82,7 +78,7 @@ class NodeTest < Minitest::Test
   end
 
   def test_node_knows_to_create_child_if_no_child_exists
-    test_node = Node.new(["t","e","s","t"])
+    test_node = Node.new("test")
 
     link_t_1 = test_node.link("h") # nil
     test_node.advance("h")
@@ -93,7 +89,7 @@ class NodeTest < Minitest::Test
   end
 
   def test_mark_node_as_end_of_word_when_node_reps_last_letter_in_string
-    test_node = Node.new(["t","e","s","t"])
+    test_node = Node.new("test")
 
     assert test_node.link("t").link("e").link("s").link("t").word?
     refute test_node.link("t").link("e").link("s").word?
@@ -103,8 +99,8 @@ class NodeTest < Minitest::Test
   end
 
   def test_mark_node_as_end_of_word_when_node_reps_last_letter_in_string
-    test_node = Node.new(["m","e","a","t"])
-    test_node.advance(["m","e"])
+    test_node = Node.new("meat")
+    test_node.advance("me")
 
     assert test_node.link("m").link("e").link("a").link("t").word?
     assert test_node.link("m").link("e").word?
@@ -114,20 +110,30 @@ class NodeTest < Minitest::Test
   end
 
   def test_it_provides_list_of_children_words
-    test_node = Node.new(["t","r","e","k"])
-    test_node.advance(["t","r","e","a","t"])
-    test_node.advance(["t","r","u","m","p"])
+    test_node = Node.new("trek")
+    test_node.advance("treat")
+    test_node.advance("trump")
 
     assert_equal ["a","k"], test_node.link("t").link("r").link("e").my_hash.keys.sort
     assert_equal ["treat","trek"], test_node.link("t").link("r").link("e").collect("tre")
   end
 
-  def test_node_captures_prefix_used_to_select_the_word_it_represents
+  def test_node_is_initialized_with_empty_hash_of_prompts
+    test_node = Node.new("trek")
 
+    assert_equal Hash.new, test_node.link("t").link("r").link("e").link("k").hash_of_prompts
   end
 
+  def test_node_captures_prefix_used_to_select_the_word_it_represents
+    test_node = Node.new("trek")
+    test_node.advance("treat")
+    test_node.advance("trump")
+    test_node.link("t").link("r").link("e").link("k").node_selected("tre")
 
+    assert_equal Hash("tre"=>1), test_node.link("t").link("r").link("e").link("k").hash_of_prompts
 
-
+    test_node.link("t").link("r").link("e").link("k").node_selected("tre")
+    assert_equal Hash("tre"=>2), test_node.link("t").link("r").link("e").link("k").hash_of_prompts
+  end
 end
 

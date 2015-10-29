@@ -3,12 +3,17 @@ require 'pry'
 class Node
   attr_accessor :selections, :word, :array, :alphabet_hash, :word_list
 
-  def initialize(array=[])
-    @array = array
+  def initialize(word_rest="") ##
+    if word_rest.class == Array
+      @word_rest = word_rest
+    elsif word_rest.class == String
+      @word_rest = word_rest.chars
+    end
     @selections = 0
     @word = false
     @my_hash = Hash.new
-    advance(array)
+    @hash_of_prompts = Hash.new
+    advance(word_rest)
   end
 
   def selections
@@ -34,7 +39,12 @@ class Node
     end
   end
 
-  def create_child(input_array)
+  def create_child(input)
+    if input.class == Array
+      input_array = input
+    elsif input.class == String
+      input_array = input.chars
+    end
     key = input_array[0]
     input_array.shift
     add_key_and_new_node_link_to_hash(key, value = Node.new(input_array))
@@ -71,5 +81,18 @@ class Node
 
   def returns(key)
     @my_hash[key] ? @my_hash[key] : "bam"
+  end
+
+  def node_selected(key)
+    if @hash_of_prompts[key].nil?
+      @hash_of_prompts[key] = 1
+    else
+      selected_times = @hash_of_prompts[key]
+      @hash_of_prompts[key] += 1
+    end
+  end
+
+  def hash_of_prompts
+    @hash_of_prompts
   end
 end
