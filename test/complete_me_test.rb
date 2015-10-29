@@ -83,7 +83,7 @@ class CompleteMeTest < Minitest::Test
     trie.insert("trump")
     trie.insert("trunk")
 
-    assert_equal trie.root.link("t").link("r").link("e"), trie.navigate_to_end_of_prefix_node("tre")
+    assert_equal trie.root.link("t").link("r").link("e"), trie.navigate_to_node_at_end_of_prefix_chain("tre")
   end
 
   def test_it_collects_potential_matches_from_the_last_node_in_prefix_string
@@ -93,7 +93,7 @@ class CompleteMeTest < Minitest::Test
     trie.insert("trump")
     trie.insert("trunk")
 
-    assert_equal trie.root.link("t").link("r").link("e"), trie.navigate_to_end_of_prefix_node("tre")
+    assert_equal trie.root.link("t").link("r").link("e"), trie.navigate_to_node_at_end_of_prefix_chain("tre")
   end
 
   def test_it_suggest_words_in_response_to_given_prefix
@@ -122,7 +122,7 @@ class CompleteMeTest < Minitest::Test
     trie.insert("trek")
     trie.select("tre", "trek")
 
-    assert_equal Hash("tre"=>1), trie.navigate_to_end_of_prefix_node("trek").prompts_hash
+    assert_equal Hash("tre"=>1), trie.navigate_to_node_at_end_of_prefix_chain("trek").prompts_hash
   end
 
   def test_it_suggest_words_in_response_to_given_prefix_ordered_by_selected_occurrence
@@ -141,4 +141,3 @@ class CompleteMeTest < Minitest::Test
     assert_equal ["january","janitor","jam","jan"], trie.suggest("ja")
   end
 end
-

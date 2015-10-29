@@ -10,34 +10,33 @@ class CompleteMe
   def insert(word)
     @count += 1
     if root.nil?
-      @root = Node.new(word.chars)
+      @root = Node.new(word)
     else
-      root.advance(word.chars)
+      root.advance(word)
     end
   end
 
-  def populate(location)
-    location_array = location.downcase.split("\n")
-    location_array.each do |word|
+  def populate(file_location)
+    file_location = file_location.downcase.split("\n")
+    file_location.each do |word|
       insert(word)
     end
   end
 
-  def navigate_to_end_of_prefix_node(prefix)
-    prefix_unchanged = prefix
-    prefix = prefix.chars
+  def navigate_to_node_at_end_of_prefix_chain(partial_word)
+    partial_word = partial_word.chars
     current = root
-    prefix.each do |char|
+    partial_word.each do |char|
       current = current.link(char)
     end
     current
   end
 
-  def suggest(prefix)
-    navigate_to_end_of_prefix_node(prefix).collect(prefix,prompt=prefix)
+  def suggest(partial_word)
+    navigate_to_node_at_end_of_prefix_chain(partial_word).collect(partial_word,original_prompt=partial_word)
   end
 
-  def select(prompt,selected_word)
-    navigate_to_end_of_prefix_node(selected_word).increase_selected_count(prompt)
+  def select(original_prompt,selected_word)
+    navigate_to_node_at_end_of_prefix_chain(selected_word).increase_selected_count(original_prompt)
   end
 end

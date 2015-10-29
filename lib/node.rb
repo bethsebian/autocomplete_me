@@ -1,20 +1,14 @@
-require 'pry'
-
 class Node
   def initialize(word_rest="")
-    word_rest.class == String ? (@word_rest = word_rest.chars) : word_rest
+    word_rest.class == String ? (word_rest = word_rest.chars) : word_rest
     @word_indicator = false
     @links_hash = Hash.new
     @prompts_hash = Hash.new
     advance(word_rest)
   end
 
-  def advance(input)
-    if input.class == Array
-      input_array = input
-    elsif input.class == String
-      input_array = input.chars
-    end
+  def advance(word)
+    word.class == String ? (input_array = word.chars) : (input_array = word)
     if input_array.empty?
       @word_indicator = true
     elsif @links_hash[input_array[0]]
@@ -28,12 +22,8 @@ class Node
     end
   end
 
-  def create_child(input)
-    if input.class == Array
-      input_array = input
-    elsif input.class == String
-      input_array = input.chars
-    end
+  def create_child(word)
+    word.class == String ? (input_array = word.chars) : (input_array = word)
     key = input_array[0]
     input_array.shift
     add_key_and_new_node_link_to_hash(key, value = Node.new(input_array))
@@ -61,12 +51,18 @@ class Node
         value.collect(prefix+key,prompt,word_list)
       end
     end
+    sort_hash_of_potential_words(word_list)
+  end
+
+
+  def sort_hash_of_potential_words(word_list)
     word_list = word_list.sort do |a,b|
       comp = (-a[1] <=> -b[1])
       comp.zero? ? (a[0] <=> b[0]) : comp
     end
     Hash[word_list].keys
   end
+
 
   def add_key_and_new_node_link_to_hash(key,value)
     @links_hash[key] = value
