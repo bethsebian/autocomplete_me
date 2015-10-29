@@ -23,10 +23,10 @@ class CompleteMe
     end
   end
 
-  def navigate_to_end_of_prefix_node(prefix) # tre
-    prefix_unchanged = prefix # tre
-    prefix = prefix.chars # ["t","r","e"]
-    current = root # root
+  def navigate_to_end_of_prefix_node(prefix)
+    prefix_unchanged = prefix
+    prefix = prefix.chars
+    current = root
     prefix.each do |char|
       current = current.link(char)
     end
@@ -35,5 +35,9 @@ class CompleteMe
 
   def suggest(prefix)
     navigate_to_end_of_prefix_node(prefix).collect(prefix)
+  end
+
+  def select(prompt,selected_word)
+    navigate_to_end_of_prefix_node(selected_word).node_selected(prompt)
   end
 end

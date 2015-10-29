@@ -3,7 +3,7 @@ require 'pry'
 class Node
   attr_accessor :selections, :word, :array, :alphabet_hash, :word_list
 
-  def initialize(word_rest="") ##
+  def initialize(word_rest="")
     if word_rest.class == Array
       @word_rest = word_rest
     elsif word_rest.class == String

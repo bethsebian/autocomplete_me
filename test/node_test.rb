@@ -136,4 +136,3 @@ class NodeTest < Minitest::Test
     assert_equal Hash("tre"=>2), test_node.link("t").link("r").link("e").link("k").hash_of_prompts
   end
 end
-

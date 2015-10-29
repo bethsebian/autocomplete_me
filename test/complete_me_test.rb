@@ -118,5 +118,12 @@ class CompleteMeTest < Minitest::Test
     assert_equal 4, trie.count
   end
 
+  def test_trie_triggers_node_to_store_data_about_its_common_prompts
+    trie = CompleteMe.new
+    trie.insert("trek")
+    trie.select("tre", "trek")
+
+    assert_equal Hash("tre"=>1), trie.navigate_to_end_of_prefix_node("trek").hash_of_prompts
+  end
 end
 
