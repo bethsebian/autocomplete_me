@@ -3,7 +3,7 @@
 
 Everyone in today's smartphone-saturated world has had their share of interactions with textual "autocomplete." But how would you actually __make__ an autocomplete system?
 
-In this project, __CompleteMe__, we will create a simple textual autocomplete system
+In this project, __CompleteMe__, we will create a simple textual autocomplete system.
 
 ## The Solution
 ![logo](./images/shoes.png)
