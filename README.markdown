@@ -24,7 +24,7 @@ system which provides the following features:
 5. Mark a selection for a substring
 6. Weight subsequent suggestions based on previous selections
 
-### To Interact with the Trie
+### Running Locally
 1. Clone the repo `$ git clone git@github.com:bethsebian/trie_hard.git autocomplete_me`
 2. Navigate to autocomplete_me directory `$ cd autocomplete_me`.
 3. Fire up a pry session `$ pry` from the autocomplete_me directory
@@ -37,7 +37,7 @@ system which provides the following features:
 7. Retrieve autocomplete suggestions with the `suggest` method: `completion.suggest("piz")` will return `["pizza", "pizzeria", "pizzicato"]`
 
 
-### Things I'm Proud Of
+### Highlights
 * My first complex logic application, completed my third week of Turing/programming (!).
 * Usage Frequency Weighting
   * The application is able to weigh suggestions based on whether they've been selected by users in the past.
