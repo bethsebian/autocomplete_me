@@ -9,12 +9,13 @@ class NodeTest < Minitest::Test
 
     assert_equal Hash.new, test_node.links_hash
     assert test_node.links_hash.empty?
+    #assert test_node.links.respond_to?(:each)
   end
 
   def test_new_node_with_1_letter_array_creates_key_letter_and_value_new_node
     test_node = Node.new("e")
 
-    assert test_node.link("e").object_id
+    assert test_node.link("e")
     refute test_node.link("a")
   end
 
@@ -24,7 +25,7 @@ class NodeTest < Minitest::Test
     assert test_node.link("f").object_id
     assert test_node.link("f").link("u").object_id
     refute test_node.link("a")
-    assert_equal nil, test_node.link("f").link("g")
+    assert_nil test_node.link("f").link("g")
    end
 
    def test_new_node_with_5_letter_array_creates_5_generations

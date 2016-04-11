@@ -1,4 +1,6 @@
 class Node
+  attr_reader :prompts_hash, :links_hash
+
   def initialize(word_rest="")
     word_rest.class == String ? (word_rest = word_rest.chars) : word_rest
     @word_indicator = false
@@ -33,10 +35,6 @@ class Node
     @word_indicator
   end
 
-  def links_hash
-    @links_hash
-  end
-
   def collect(prefix,prompt,word_list=Hash.new)
     if @word_indicator == true
       if prompts_hash[prompt].nil?
@@ -44,9 +42,9 @@ class Node
       else
         word_list[prefix] = @prompts_hash[prompt]
       end
+
     end
-    if links_hash.empty?
-    else
+    if !links_hash.empty?
       @links_hash.each do |key, value|
         value.collect(prefix+key,prompt,word_list)
       end
@@ -73,7 +71,7 @@ class Node
   end
 
   def returns(key)
-    @links_hash[key] ? @links_hash[key] : "bam"
+    @links_hash[key] || "bam"
   end
 
   def increase_selected_count(key)
@@ -85,7 +83,4 @@ class Node
     end
   end
 
-  def prompts_hash
-    @prompts_hash
-  end
 end
