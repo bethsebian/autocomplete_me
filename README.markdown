@@ -38,10 +38,11 @@ system which provides the following features:
 
 
 ### Things I'm Proud Of
-Usage Frequency Weighting
-* The application is able to weight suggestions based on whether they've been selected by users in the past.
-* User can `select` a suggestion with the command `completion.select("piz", "pizzeria")`.
-* The next time `suggest` is called, the suggestions will be reordered to illustrate the weighting of "pizzeria" ahead of "pizza".
+* My first complex logic application, completed my third week of Turing/programming (!).
+* Usage Frequency Weighting
+  * The application is able to weigh suggestions based on whether they've been selected by users in the past.
+  * User can `select` a suggestion with the command `completion.select("piz", "pizzeria")`.
+  * The next time `suggest` is called, the suggestions will be reordered to illustrate the weighting of "pizzeria" ahead of "pizza".
 
 ### Areas for Improvement
 * The [node.rb](https://github.com/bethsebian/trie_hard/blob/master/lib/node.rb) file could be refactored and cleaned up a big, maybe extracting some methods to a third class.
