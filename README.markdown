@@ -28,14 +28,13 @@ system which provides the following features:
 1. Clone the repo `$ git clone git@github.com:bethsebian/trie_hard.git autocomplete_me`
 2. Navigate to autocomplete_me directory `$ cd autocomplete_me`.
 3. Fire up a pry session `$ pry` from the autocomplete_me directory
-4. Require the complete_me.rb file `require "./lib/complete_me.rb"`
+4. Require the complete_me.rb file `$ require "./lib/complete_me.rb"`
 5. Set a variable pointing to a new instance of the CompleteMe class `$ completion = CompleteMe.new`
 6. Add words to your dictionary:
-  * Add words word-by-word to the trie with `completion.insert("pizza")` OR
-  * Add the entire Mac dictionary with `$ dictionary = File.read("/usr/share/dict/words")` and then `completion.populate(dictionary)`.
-  * Confirm words have been added with `completion.count`
-7. Retrieve autocomplete suggestions with the `suggest` method: `completion.suggest("piz")` will return `["pizza", "pizzeria", "pizzicato"]`
-
+  * Add words word-by-word to the trie with `$ completion.insert("pizza")` OR
+  * Add the entire Mac dictionary with `$ dictionary = File.read("/usr/share/dict/words")` and then `$ completion.populate(dictionary)`.
+  * Confirm words have been added with `$ completion.count`
+7. Retrieve autocomplete suggestions with the `suggest` method: `$ completion.suggest("piz")` will return `["pizza", "pizzeria", "pizzicato"]`
 
 ### Highlights
 * My first complex logic application, completed my third week of Turing/programming (!).
